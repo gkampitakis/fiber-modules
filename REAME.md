@@ -1,17 +1,16 @@
 # Fiber Modules
 
-TBD
+A list of modules useful for using with [fiber](https://github.com/gofiber/fiber)
 
 ## Install
 
-TBD
+```bash
+go get github.com/gkampitakis/fiber-modules
+```
 
-## Usage
+## Contents
 
-
-## API
-
-## Example response
+- [healthcheck](./healthcheck/README.md)
 
 ## Local Development
 
@@ -27,9 +26,9 @@ Inside `./server`
 # Assuming that your path structure is
 # ../gofiber-custom-healthcheck
 # ../server
-go mod edit -replace=github.com/gkampitakis/gofiber-custom-healthcheck@v0.0.1-beta=../gofiber-custom-healthcheck
+go mod edit -replace=github.com/gkampitakis/fiber-modules@v0.0.1-beta=../gofiber-custom-healthcheck
 
-go get -d github.com/gkampitakis/gofiber-custom-healthcheck@v0.0.1-beta
+go get -d github.com/gkampitakis/fiber-modules@v0.0.1-beta
 ```
 
 With this way we replace the module with the local instance. Hope this helps.
