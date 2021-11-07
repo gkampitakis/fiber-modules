@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/gkampitakis/fiber-modules/compare/v1.0.0...v1.0.1) (2021-11-07)
+
+
+### Bug Fixes
+
+* **healthcheck:** make redundant structs private ([6e523af](https://github.com/gkampitakis/fiber-modules/commit/6e523af89b133bf03704a98e7cc22b6e433a061a))
+
 # 1.0.0 (2021-11-06)
 
 
