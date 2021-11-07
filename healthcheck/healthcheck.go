@@ -14,25 +14,25 @@ var upTime = time.Now()
 type HealthCheckResponse struct {
 	Service      string            `json:"service,omitempty"`
 	Uptime       string            `json:"uptime"`
-	Memory       MemoryMetrics     `json:"memory"`
+	Memory       memoryMetrics     `json:"memory"`
 	GoRoutines   int               `json:"go_routines"`
 	HealthChecks map[string]string `json:"health_checks,omitempty"`
 }
 
-type MemoryMetrics struct {
+type memoryMetrics struct {
 	ResidentSetSize  uint64 `json:"rss"`
 	TotalAlloc       uint64 `json:"total_alloc"`
 	HeapAlloc        uint64 `json:"heap_alloc"`
 	HeapObjectsCount uint64 `json:"heap_objects_count"`
 }
 
-type CheckResult struct {
+type checkResult struct {
 	msg   string
 	label string
 }
 
-func New(options ...func(*Config)) fiber.Handler {
-	cfg := Config{}
+func New(options ...func(*config)) fiber.Handler {
+	cfg := config{}
 
 	for _, o := range options {
 		o(&cfg)
@@ -49,7 +49,7 @@ func New(options ...func(*Config)) fiber.Handler {
 // @Success 200 {object} map[string]string "This can be dynamic and add more fields in checks"
 // @Failure 500 {object} map[string]string "The route can return 500 in case of failed check,timeouts or panic"
 // @Router /health [get]
-func registerHealthcheck(cfg Config) fiber.Handler {
+func registerHealthcheck(cfg config) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 
 		if cfg.HealthChecks == nil {
@@ -58,7 +58,7 @@ func registerHealthcheck(cfg Config) fiber.Handler {
 
 		status := http.StatusOK
 		response := prepareResponse(cfg.ServiceName, map[string]string{})
-		c := make(chan CheckResult)
+		c := make(chan checkResult)
 		checksLength := len(cfg.HealthChecks)
 
 		for label, control := range cfg.HealthChecks {
@@ -87,7 +87,7 @@ func prepareResponse(serviceName string, checks map[string]string) *HealthCheckR
 	return &HealthCheckResponse{
 		Uptime:  time.Since(upTime).String(),
 		Service: serviceName,
-		Memory: MemoryMetrics{
+		Memory: memoryMetrics{
 			ResidentSetSize:  mem.HeapSys,
 			TotalAlloc:       mem.TotalAlloc,
 			HeapAlloc:        mem.HeapAlloc,
@@ -102,15 +102,15 @@ func check(
 	label string,
 	control func() error,
 	status *int,
-	c chan<- CheckResult,
-	cfg Config,
+	c chan<- checkResult,
+	cfg config,
 ) {
-	internalChan := make(chan CheckResult, 1)
+	internalChan := make(chan checkResult, 1)
 
 	go func() {
 		defer func() {
 			if e := recover(); e != nil {
-				internalChan <- CheckResult{msg: fmt.Errorf("paniced with error: %v", e).Error(), label: label}
+				internalChan <- checkResult{msg: fmt.Errorf("paniced with error: %v", e).Error(), label: label}
 				if *status == http.StatusOK {
 					*status = http.StatusInternalServerError
 				}
@@ -119,7 +119,7 @@ func check(
 
 		err := control()
 		if err == nil {
-			internalChan <- CheckResult{msg: "healthy", label: label}
+			internalChan <- checkResult{msg: "healthy", label: label}
 			return
 		}
 
@@ -133,7 +133,7 @@ func check(
 			msg = err.Error()
 		}
 
-		internalChan <- CheckResult{msg, label}
+		internalChan <- checkResult{msg, label}
 	}()
 
 	if cfg.TimeoutEnabled {
@@ -141,7 +141,7 @@ func check(
 		case tmp := <-internalChan:
 			c <- tmp
 		case <-time.After(time.Second * cfg.TimeoutPeriod):
-			c <- CheckResult{msg: fmt.Sprintf("Timeout after %d seconds", cfg.TimeoutPeriod), label: label}
+			c <- checkResult{msg: fmt.Sprintf("Timeout after %d seconds", cfg.TimeoutPeriod), label: label}
 		}
 
 		return

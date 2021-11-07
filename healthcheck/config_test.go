@@ -9,7 +9,7 @@ import (
 
 func TestConfig(t *testing.T) {
 	t.Run("Default Values", func(t *testing.T) {
-		cfg := Config{}
+		cfg := config{}
 
 		assert.False(t, cfg.TimeoutEnabled, "timeout should be false by default")
 		assert.Empty(t, cfg.TimeoutPeriod, "timeoutPeriod should be 0 by default")
@@ -20,7 +20,7 @@ func TestConfig(t *testing.T) {
 
 	t.Run("EnableTimeout", func(t *testing.T) {
 		t.Run("should enable timeout and set default period if not set", func(t *testing.T) {
-			cfg := Config{}
+			cfg := config{}
 			EnableTimeout()(&cfg)
 
 			assert.True(t, cfg.TimeoutEnabled)
@@ -28,7 +28,7 @@ func TestConfig(t *testing.T) {
 		})
 
 		t.Run("should not override timeout period", func(t *testing.T) {
-			cfg := Config{}
+			cfg := config{}
 			SetTimeoutPeriod(15)(&cfg)
 			EnableTimeout()(&cfg)
 
@@ -38,7 +38,7 @@ func TestConfig(t *testing.T) {
 	})
 
 	t.Run("ShowErrors", func(t *testing.T) {
-		cfg := Config{}
+		cfg := config{}
 		ShowErrors()(&cfg)
 
 		assert.True(t, cfg.ShowErrors, "should set show errors to true")
@@ -46,7 +46,7 @@ func TestConfig(t *testing.T) {
 
 	t.Run("SetTimeoutPeriod", func(t *testing.T) {
 		t.Run("should set timeout period and auto enable timeout if false", func(t *testing.T) {
-			cfg := Config{}
+			cfg := config{}
 			SetTimeoutPeriod(20)(&cfg)
 
 			assert.True(t, cfg.TimeoutEnabled)
@@ -55,7 +55,7 @@ func TestConfig(t *testing.T) {
 	})
 
 	t.Run("RegisterHealthChecks", func(t *testing.T) {
-		cfg := Config{}
+		cfg := config{}
 		checks := HealthchecksMap{"test": func() error { return nil }}
 
 		RegisterHealthChecks(checks)(&cfg)
