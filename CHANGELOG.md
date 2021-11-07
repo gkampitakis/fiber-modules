@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/gkampitakis/fiber-modules/compare/v1.0.1...v1.0.2) (2021-11-07)
+
+
+### Bug Fixes
+
+* **gracefulshutdown:** implement gracefulshutdown module ([#3](https://github.com/gkampitakis/fiber-modules/issues/3)) ([4629686](https://github.com/gkampitakis/fiber-modules/commit/462968672fadb6f189a25d197034e2cd131934a3))
+
 ## [1.0.1](https://github.com/gkampitakis/fiber-modules/compare/v1.0.0...v1.0.1) (2021-11-07)
 
 
