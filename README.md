@@ -11,6 +11,7 @@ go get github.com/gkampitakis/fiber-modules
 ## Contents
 
 - [healthcheck](./healthcheck/README.md)
+- [gracefulshutdown](./gracefulshutdown/README.md)
 
 ## Local Development
 
