@@ -8,3 +8,7 @@ linters:
     - ifshort
     - goimports
     - goimports
+
+linters-settings:
+  lll:
+    line-length: 180

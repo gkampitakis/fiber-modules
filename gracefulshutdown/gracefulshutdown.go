@@ -105,8 +105,7 @@ func executeFn(fn func() error) {
 		}
 	}()
 
-	err := fn()
-	if err != nil {
+	if err := fn(); err != nil {
 		log.Println(err)
 	}
 }
