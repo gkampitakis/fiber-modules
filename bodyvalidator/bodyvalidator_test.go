@@ -94,7 +94,7 @@ func TestBodyValidator(t *testing.T) {
 		payload := `{"user":{"name":"gkampitakis","age":"invalid"}}`
 		body, statusCode := validationRequest(t, app, payload)
 		expectedBody :=
-			`{"statusCode":400,"message":"Bad request"}`
+			`{"message":"Bad request","statusCode":400}`
 
 		assert.Equal(t, http.StatusBadRequest, statusCode)
 		assert.Equal(t, expectedBody, string(body))
@@ -161,7 +161,7 @@ func TestBodyValidator(t *testing.T) {
 		payload := `{"user":{"name":"gkampitakis","age":"invalid"}}`
 		body, statusCode := validationRequest(t, app, payload)
 		expectedBody :=
-			`{"statusCode":400,"message":"Bad request"}`
+			`{"message":"Bad request","statusCode":400}`
 
 		assert.Equal(t, http.StatusBadRequest, statusCode)
 		assert.Equal(t, expectedBody, string(body))
@@ -179,7 +179,7 @@ func TestBodyValidator(t *testing.T) {
 		payload := `{"user":{"name":"gkampitakis","age":"invalid"}}`
 		body, statusCode := validationRequest(t, app, payload)
 		expectedBody :=
-			`{"description":[{"propertyPath":"/user/age","invalidValue":"invalid","message":"type should be number, got string"}],"statusCode":400,"message":"Bad request"}`
+			`{"description":[{"propertyPath":"/user/age","invalidValue":"invalid","message":"type should be number, got string"}],"message":"Bad request","statusCode":400}`
 
 		assert.Equal(t, http.StatusBadRequest, statusCode)
 		assert.Equal(t, expectedBody, string(body))
@@ -196,7 +196,7 @@ func TestBodyValidator(t *testing.T) {
 
 		body, statusCode := validationRequest(t, app, "")
 		expectedBody :=
-			`{"statusCode":400,"message":"Bad request: unexpected end of JSON input"}`
+			`{"message":"Bad request: unexpected end of JSON input","statusCode":400}`
 
 		assert.Equal(t, http.StatusBadRequest, statusCode)
 		assert.Equal(t, expectedBody, string(body))
@@ -214,7 +214,7 @@ func TestBodyValidator(t *testing.T) {
 		payload := `"bar"`
 		body, statusCode := validationRequest(t, app, payload)
 		expectedBody :=
-			`{"description":[{"propertyPath":"/","invalidValue":"bar","message":"invalid foo"}],"statusCode":400,"message":"Bad request"}`
+			`{"description":[{"propertyPath":"/","invalidValue":"bar","message":"invalid foo"}],"message":"Bad request","statusCode":400}`
 
 		assert.Equal(t, http.StatusBadRequest, statusCode)
 		assert.Equal(t, expectedBody, string(body))
@@ -234,5 +234,28 @@ func TestBodyValidator(t *testing.T) {
 
 		app := fiber.New()
 		setupValidationRoute(app, v)
+	})
+
+	t.Run("should override default bad request response", func(t *testing.T) {
+		response := func(ke []jsonschema.KeyError) interface{} {
+			return map[string]interface{}{
+				"message": "oops you messed it up there",
+			}
+		}
+		bodyValidator := New(SetResponse(response))
+		v := bodyValidator(Config{
+			SchemaPath: "testdata/body-schema.json",
+		})
+
+		app := fiber.New()
+		setupValidationRoute(app, v)
+
+		payload := `{"user":{"name":"gkampitakis","age":"invalid"}}`
+		body, statusCode := validationRequest(t, app, payload)
+		expectedBody :=
+			`{"message":"oops you messed it up there"}`
+
+		assert.Equal(t, http.StatusBadRequest, statusCode)
+		assert.Equal(t, expectedBody, string(body))
 	})
 }

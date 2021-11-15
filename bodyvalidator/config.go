@@ -9,9 +9,12 @@ type Config struct {
 
 type Keywords map[string]jsonschema.KeyMaker
 
+type BadRequestResponse func([]jsonschema.KeyError) interface{}
+
 type globalConfig struct {
-	customKeywords Keywords
-	exposeErrors   bool
+	customKeywords     Keywords
+	exposeErrors       bool
+	badRequestResponse BadRequestResponse
 }
 
 func ExposeErrors() func(*globalConfig) {
@@ -23,5 +26,11 @@ func ExposeErrors() func(*globalConfig) {
 func RegisterKeywords(keywords Keywords) func(*globalConfig) {
 	return func(cfg *globalConfig) {
 		cfg.customKeywords = keywords
+	}
+}
+
+func SetResponse(response BadRequestResponse) func(*globalConfig) {
+	return func(cfg *globalConfig) {
+		cfg.badRequestResponse = response
 	}
 }

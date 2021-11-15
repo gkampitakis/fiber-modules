@@ -15,17 +15,15 @@ import (
 
 var logFatal = log.Fatal
 
-type badRequestResponse struct {
-	Description []jsonschema.KeyError `json:"description,omitempty"`
-	StatusCode  int                   `json:"statusCode"`
-	Message     string                `json:"message"`
-}
-
 func New(cFns ...func(*globalConfig)) func(Config) fiber.Handler {
 	globalCfg := &globalConfig{}
 
 	for _, fn := range cFns {
 		fn(globalCfg)
+	}
+
+	if globalCfg.badRequestResponse == nil {
+		globalCfg.badRequestResponse = defaultResponse(globalCfg.exposeErrors)
 	}
 
 	// if keywords are given we need to load the draft again
@@ -47,15 +45,15 @@ func New(cFns ...func(*globalConfig)) func(Config) fiber.Handler {
 			validationErrors, err := v.ValidateBytes(c.Context(), c.Body())
 			if err != nil {
 				return c.Status(http.StatusBadRequest).
-					JSON(badRequestResponse{
-						StatusCode: 400,
-						Message:    fmt.Sprintf("Bad request: %s", errors.Unwrap(err)),
+					JSON(map[string]interface{}{
+						"message":    fmt.Sprintf("Bad request: %s", errors.Unwrap(err)),
+						"statusCode": 400,
 					})
 			}
 
 			if len(validationErrors) > 0 {
 				return c.Status(http.StatusBadRequest).
-					JSON(formatResponse(globalCfg.exposeErrors, validationErrors))
+					JSON(globalCfg.badRequestResponse(validationErrors))
 			}
 
 			return c.Next()
@@ -91,20 +89,19 @@ func loadValidator(cfg Config) (*jsonschema.Schema, error) {
 	return s, nil
 }
 
-func formatResponse(
-	exposeErrors bool,
-	errors []jsonschema.KeyError,
-) badRequestResponse {
-	res := badRequestResponse{
-		Message:    "Bad request",
-		StatusCode: 400,
-	}
+func defaultResponse(exposeErrors bool) BadRequestResponse {
+	return func(errors []jsonschema.KeyError) interface{} {
+		res := map[string]interface{}{
+			"message":    "Bad request",
+			"statusCode": 400,
+		}
 
-	if exposeErrors {
-		res.Description = errors
-	}
+		if exposeErrors {
+			res["description"] = errors
+		}
 
-	return res
+		return res
+	}
 }
 
 func warning(message string) {
