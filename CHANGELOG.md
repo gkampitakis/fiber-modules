@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/gkampitakis/fiber-modules/compare/v1.1.0...v1.1.1) (2021-11-15)
+
+
+### Bug Fixes
+
+* **bodyvalidator:** add option for overriding bad request response ([#5](https://github.com/gkampitakis/fiber-modules/issues/5)) ([06f64db](https://github.com/gkampitakis/fiber-modules/commit/06f64dbb8ccf7102d474d959d13d94ced2cd34c5))
+
 # [1.1.0](https://github.com/gkampitakis/fiber-modules/compare/v1.0.2...v1.1.0) (2021-11-15)
 
 
