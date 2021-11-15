@@ -12,22 +12,23 @@ go get github.com/gkampitakis/fiber-modules
 
 - [healthcheck](./healthcheck/README.md)
 - [gracefulshutdown](./gracefulshutdown/README.md)
+- [bodyvalidator](./bodyvalidator/README.md)
 
 ## Local Development
 
 This is a general guide when you want to test some changes in a `go module` 
 before publishing.
 
-You want to test some changes in `./gofiber-custom-healthcheck` in a 
+You want to test some changes in `./fiber-modules` in a 
 `./server`.
 
 Inside `./server`
 
 ```bash
 # Assuming that your path structure is
-# ../gofiber-custom-healthcheck
+# ../fiber-modules
 # ../server
-go mod edit -replace=github.com/gkampitakis/fiber-modules@v0.0.1-beta=../gofiber-custom-healthcheck
+go mod edit -replace=github.com/gkampitakis/fiber-modules@v0.0.1-beta=../fiber-modules
 
 go get -d github.com/gkampitakis/fiber-modules@v0.0.1-beta
 ```

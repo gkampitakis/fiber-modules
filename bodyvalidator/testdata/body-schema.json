@@ -1,0 +1,22 @@
+{
+  "additionalProperties": false,
+  "type": "object",
+  "properties": {
+    "user": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "age":{
+          "type": "number"
+        }
+      },
+      "required": ["name"]
+    }
+  },
+  "required": ["user"]
+}
