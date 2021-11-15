@@ -26,6 +26,22 @@ on what validation errors occurred
 custom keywords to the underlying library used 
 [jsonschema](https://github.com/qri-io/jsonschema). For more information about
 [Custom Keywords](https://github.com/qri-io/jsonschema#custom-keywords)
+- `bodyvalidator.SetResponse()` You can override the default bad request response.
+
+  Example 
+
+  ```go
+  response := func(ke []jsonschema.KeyError) interface{} {
+    return map[string]interface{}{
+      "message": "oops you messed it up there",
+    }
+  }
+  validator := bodyvalidator.New(bodyvalidator.SetResponse(response))
+  ```
+
+  > Please be mindful that if you override the default response the option
+  `ExposeErrors` is not going to be in effect as the provided function is in 
+  control of what's returned in the response.
 
 The second way of configuring `fiber-modules/bodyvalidator` is per route level
 by providing the `json schema` to validate the objects with. It can be either a
