@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/gkampitakis/fiber-modules/compare/v1.0.2...v1.1.0) (2021-11-15)
+
+
+### Features
+
+* **bodyvalidator:** implement bodyvalidator module ([#4](https://github.com/gkampitakis/fiber-modules/issues/4)) ([31c5faa](https://github.com/gkampitakis/fiber-modules/commit/31c5faa9fc2d3fa1bf5e3ba676b5301e539d769d))
+
 ## [1.0.2](https://github.com/gkampitakis/fiber-modules/compare/v1.0.1...v1.0.2) (2021-11-07)
 
 
