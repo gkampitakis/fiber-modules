@@ -3,7 +3,7 @@ module github.com/gkampitakis/fiber-modules
 go 1.17
 
 require (
-	github.com/gofiber/fiber/v2 v2.22.0
+	github.com/gofiber/fiber/v2 v2.24.0
 	github.com/qri-io/jsonpointer v0.1.1
 	github.com/qri-io/jsonschema v0.2.1
 	github.com/stretchr/testify v1.7.0
