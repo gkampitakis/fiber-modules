@@ -1,3 +1,10 @@
+## [1.1.5](https://github.com/gkampitakis/fiber-modules/compare/v1.1.4...v1.1.5) (2022-05-02)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/gofiber/fiber/v2 to v2.32.0 ([#11](https://github.com/gkampitakis/fiber-modules/issues/11)) ([1ad0d23](https://github.com/gkampitakis/fiber-modules/commit/1ad0d23d738ae58dea55fee89d0cd0b2614a45d8))
+
 ## [1.1.4](https://github.com/gkampitakis/fiber-modules/compare/v1.1.3...v1.1.4) (2022-02-01)
 
 
