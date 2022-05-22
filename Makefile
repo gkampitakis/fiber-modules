@@ -16,5 +16,6 @@ test-gs:
 coverage:
 	go test -coverprofile coverage.out ./... && go tool cover -html=coverage.out
 
-format: 
+format:
+	golines -w .
 	go fmt ./...

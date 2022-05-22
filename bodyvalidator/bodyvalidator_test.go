@@ -27,7 +27,11 @@ func (f *IsFoo) Resolve(pointer jptr.Pointer, uri string) *jsonschema.Schema {
 }
 
 // ValidateKeyword implements jsonschema.Keyword
-func (f IsFoo) ValidateKeyword(ctx context.Context, currentState *jsonschema.ValidationState, data interface{}) {
+func (f IsFoo) ValidateKeyword(
+	ctx context.Context,
+	currentState *jsonschema.ValidationState,
+	data interface{},
+) {
 	if str, ok := data.(string); ok {
 		if str != "foo" {
 			currentState.AddError(data, "invalid foo")

@@ -11,7 +11,6 @@ import (
 )
 
 var defaultSignals = []os.Signal{
-	syscall.SIGKILL,
 	syscall.SIGINT,
 	syscall.SIGTERM,
 }
