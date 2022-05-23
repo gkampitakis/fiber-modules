@@ -46,7 +46,7 @@ func getDefaults(c Config) (func(error), []os.Signal) {
 	}
 
 	errorHandler := c.ListenErrorHandler
-	if errorHandler != nil {
+	if errorHandler == nil {
 		errorHandler = func(err error) {
 			log.Fatal(err)
 		}
