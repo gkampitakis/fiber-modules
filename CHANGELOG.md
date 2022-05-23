@@ -1,3 +1,10 @@
+## [1.1.6](https://github.com/gkampitakis/fiber-modules/compare/v1.1.5...v1.1.6) (2022-05-23)
+
+
+### Bug Fixes
+
+* **gracefulshutdown:** nil errorhandler ([#12](https://github.com/gkampitakis/fiber-modules/issues/12)) ([de6318c](https://github.com/gkampitakis/fiber-modules/commit/de6318c6fb77bc561700f3fc300de5b1b62e98b3))
+
 ## [1.1.5](https://github.com/gkampitakis/fiber-modules/compare/v1.1.4...v1.1.5) (2022-05-02)
 
 
