@@ -1,3 +1,10 @@
+## [1.1.8](https://github.com/gkampitakis/fiber-modules/compare/v1.1.7...v1.1.8) (2022-07-01)
+
+
+### Bug Fixes
+
+* **deps:** update all dependencies ([#14](https://github.com/gkampitakis/fiber-modules/issues/14)) ([f773aef](https://github.com/gkampitakis/fiber-modules/commit/f773aefe2bd7d602e9054cd84e2112feec0996ee))
+
 ## [1.1.7](https://github.com/gkampitakis/fiber-modules/compare/v1.1.6...v1.1.7) (2022-06-06)
 
 
